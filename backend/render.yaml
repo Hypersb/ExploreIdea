@@ -1,0 +1,24 @@
+services:
+  - type: web
+    name: exploreidea-backend
+    runtime: python
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: uvicorn app.main:app --host 0.0.0.0 --port $PORT
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.11.0
+      - key: UNSPLASH_ACCESS_KEY
+        sync: false
+      - key: PEXELS_API_KEY
+        sync: false
+      - key: ENVIRONMENT
+        value: production
+      - key: DEBUG
+        value: false
+      - key: CLIP_MODEL_NAME
+        value: ViT-B/32
+      - key: DEVICE
+        value: cpu
+    healthCheckPath: /health
+    autoDeploy: true

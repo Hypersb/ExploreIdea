@@ -1,0 +1,38 @@
+fastapi==0.109.0
+uvicorn[standard]==0.27.0
+python-multipart==0.0.6
+python-dotenv==1.0.0
+pydantic==2.5.3
+pydantic-settings==2.1.0
+
+# AI/ML
+torch==2.1.2
+torchvision==0.16.2
+transformers==4.36.2
+sentence-transformers==2.2.2
+Pillow==10.2.0
+numpy==1.26.3
+opencv-python==4.9.0.80
+
+# CLIP Model
+ftfy==6.1.3
+regex==2023.12.25
+
+# Database
+pymongo==4.6.1
+motor==3.3.2
+redis==5.0.1
+
+# HTTP & API
+httpx==0.26.0
+requests==2.31.0
+aiohttp==3.9.1
+
+# Security
+python-jose[cryptography]==3.3.0
+passlib[bcrypt]==1.7.4
+python-multipart==0.0.6
+
+# Utilities
+python-slugify==8.0.1
+validators==0.22.0

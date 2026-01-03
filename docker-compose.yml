@@ -1,0 +1,71 @@
+version: '3.8'
+
+services:
+  # Backend API
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile
+    ports:
+      - "8000:8000"
+    environment:
+      - MONGODB_URL=mongodb://mongo:27017
+      - REDIS_URL=redis://redis:6379
+      - DATABASE_NAME=exploreidea
+      - UNSPLASH_ACCESS_KEY=${UNSPLASH_ACCESS_KEY}
+      - PEXELS_API_KEY=${PEXELS_API_KEY}
+      - ALLOWED_ORIGINS=http://localhost:5173,http://localhost:80
+    depends_on:
+      - mongo
+      - redis
+    restart: unless-stopped
+    volumes:
+      - ./backend/app:/app/app
+    networks:
+      - exploreidea-network
+
+  # Frontend
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile
+    ports:
+      - "80:80"
+    depends_on:
+      - backend
+    restart: unless-stopped
+    networks:
+      - exploreidea-network
+
+  # MongoDB
+  mongo:
+    image: mongo:6
+    ports:
+      - "27017:27017"
+    volumes:
+      - mongo-data:/data/db
+    environment:
+      - MONGO_INITDB_DATABASE=exploreidea
+    restart: unless-stopped
+    networks:
+      - exploreidea-network
+
+  # Redis
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    command: redis-server --appendonly yes
+    restart: unless-stopped
+    networks:
+      - exploreidea-network
+
+volumes:
+  mongo-data:
+  redis-data:
+
+networks:
+  exploreidea-network:
+    driver: bridge
